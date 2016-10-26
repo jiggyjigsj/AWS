@@ -36,6 +36,14 @@ echo "Deleting launch configuration"
 aws autoscaling delete-launch-configuration --launch-configuration-name $2
 echo "Deleting Load Balancer"
 aws elb delete-load-balancer --load-balancer-name $3
+if [ -z ${4+x} ]; 
+then
+echo "No Database Identifier Given!"
+else
+aws rds delete-db-instance --skip-final-snapshot --db-instance-identifier $4
+echo "Lets wait until the Database Instance gets deleted!"
+aws rds wait db-instance-deleted
+fi
 echo "If you didn't didn't get to the CHOPA by now its too late!!!"
 echo "
                   ..-^~~~^-..

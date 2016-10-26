@@ -14,7 +14,7 @@ EX: ./create-env.sh ami-06b94666 Jiggy sg-91e12ae8 apache-conf 3
 
 *****************************************************************
 
-To destroy your enviroment, you will need to pass 3 variables:
+To destroy your enviroment, you will need to pass 4 variables:
 
 Ex. ./destroy-env.sh apache-auto apache-conf apache-lb
 
@@ -22,3 +22,4 @@ Ex. ./destroy-env.sh apache-auto apache-conf apache-lb
 1. Auto-Scaling name / apache-auto
 2. Launch-Configuration / apache-conf
 3. Load Balancer Name / apache-lb
+4. Database Identified / dbfirst (Optional)
