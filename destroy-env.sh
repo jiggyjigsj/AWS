@@ -16,7 +16,7 @@ ID=
 ID=`aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone, State.Name, InstanceId]' | grep -E 'running|pending' | awk '{print $3}'`
 echo "Here are all running instances: " $ID
 echo "Updating autoscaling group"
-aws autoscaling update-auto-scaling-group --auto-scaling-group-name apache-auto --min-size 0 --max-size 0 --desired-capacity 0
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name $1 --min-size 0 --max-size 0 --desired-capacity 0
 ID=`aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone, State.Name, InstanceId]' | grep -E 'running|pending' | awk '{print $3}'`
 if [ "$ID" ]; then
 	echo "Waiting till instances terminate"
@@ -27,15 +27,15 @@ else
 	aws ec2 wait instance-terminated
 fi
 echo "Detaching load balancer"
-aws autoscaling detach-load-balancers --load-balancer-names apache-lb --auto-scaling-group-name apache-auto
+aws autoscaling detach-load-balancers --load-balancer-names apache-lb --auto-scaling-group-name $1
 echo "Lets Sleep for 30 Sec. just to be safe here"
 sleep 30
 echo "Deleting auto scaling group"
-aws autoscaling delete-auto-scaling-group --auto-scaling-group-name apache-auto
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $1
 echo "Deleting launch configuration"
-aws autoscaling delete-launch-configuration --launch-configuration-name apache-conf
+aws autoscaling delete-launch-configuration --launch-configuration-name $2
 echo "Deleting Load Balancer"
-aws elb delete-load-balancer --load-balancer-name apache-lb
+aws elb delete-load-balancer --load-balancer-name $3
 echo "If you didn't didn't get to the CHOPA by now its too late!!!"
 echo "
                   ..-^~~~^-..
