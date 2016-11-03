@@ -16,7 +16,8 @@ ID=
 ID=`aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone, State.Name, InstanceId]' | grep -E 'running|pending' | awk '{print $3}'`
 echo "Here are all running instances: " $ID
 echo "Updating autoscaling group"
-aws autoscaling update-auto-scaling-group --auto-scaling-group-name $1 --min-size 0 --max-size 0 --desired-capacity 0
+AutoName=`aws autoscaling describe-auto-scaling-groups --query 'AutoScalingGroups[*].[AutoScalingGroupName]'`
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name $AutoName --min-size 0 --max-size 0 --desired-capacity 0
 ID=`aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone, State.Name, InstanceId]' | grep -E 'running|pending' | awk '{print $3}'`
 if [ "$ID" ]; then
 	echo "Waiting till instances terminate"
@@ -27,23 +28,26 @@ else
 	aws ec2 wait instance-terminated
 fi
 echo "Detaching load balancer"
-aws autoscaling detach-load-balancers --load-balancer-names apache-lb --auto-scaling-group-name $1
+aws autoscaling detach-load-balancers --load-balancer-names apache-lb --auto-scaling-group-name $AutoName
 echo "Lets Sleep for 30 Sec. just to be safe here"
 sleep 30
 echo "Deleting auto scaling group"
-aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $1
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $AutoName
 echo "Deleting launch configuration"
-aws autoscaling delete-launch-configuration --launch-configuration-name $2
+LCName=`aws autoscaling describe-launch-configurations --query 'LaunchConfigurations[*].[LaunchConfigurationName]'`
+aws autoscaling delete-launch-configuration --launch-configuration-name $LCName
 echo "Deleting Load Balancer"
-aws elb delete-load-balancer --load-balancer-name $3
-if [ -z ${4+x} ]; 
-then
-echo "No Database Identifier Given!"
-else
-aws rds delete-db-instance --skip-final-snapshot --db-instance-identifier $4
-echo "Lets wait until the Database Instance gets deleted!"
-aws rds wait db-instance-deleted
-fi
+LBName=`aws elb describe-load-balancers --query 'LoadBalancerDescriptions[*].[LoadBalancerName]'`
+aws elb delete-load-balancer --load-balancer-name $LBName
+echo "Deleting Database"
+DBName=`aws rds describe-db-instances --query 'DBInstances[*].[DBInstanceIdentifier]'`
+aws rds delete-db-instance --skip-final-snapshot --db-instance-identifier $DBName
+echo "Deleting Topic"
+TopicName=`aws sns list-topics --query 'Topics[*].[TopicArn]'`
+aws sns delete-topic --topic-arn "$TopicName"
+echo "Deleting Queue"
+QueueURLS=`aws sqs list-queues --query 'QueueUrls[*]'`
+aws sqs delete-queue --queue-url $QueueURLS
 echo "If you didn't didn't get to the CHOPA by now its too late!!!"
 echo "
                   ..-^~~~^-..
