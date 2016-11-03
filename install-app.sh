@@ -1,14 +1,17 @@
 #! /usr/bin/env bash
 
-sudo apt-get update
-sudo apt-get -y install git 
-sudo apt-get -y install apache2
-
-sudo systemctl enable apache2
-sudo systemctl start apache2
+apt-get update
+apt-get -y install git apache2 php-xm php php-mysql curl php-curl zip unzip
 
 cd /home/ubuntu
 
-sudo git clone https://github.com/jjp1023/boostrap-website.git
+curl -sS https://getcomposer.org/installer | php
 
-sudo mv /home/ubuntu/boostrap-website/* /var/www/html
+php composer.phar require aws/aws-sdk-php
+
+systemctl enable apache2
+systemctl start apache2
+
+git clone https://github.com/jjp1023/boostrap-website.git
+
+mv /home/ubuntu/boostrap-website/* /var/www/html
