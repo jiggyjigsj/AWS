@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 apt-get update
-apt-get -y install git apache2 php-xm php php-mysql curl php-curl zip unzip
+apt-get -y install git apache2 php-xml libapache2-mod-php php php-mysql curl php-curl zip unzip
 
 cd /home/ubuntu
 
@@ -12,6 +12,8 @@ php composer.phar require aws/aws-sdk-php
 systemctl enable apache2
 systemctl start apache2
 
-git clone https://github.com/jjp1023/boostrap-website.git
+mkdir /var/www/html/vendor
+mv vendor/* /var/www/html/vendor
 
-mv /home/ubuntu/boostrap-website/* /var/www/html
+mv /home/ubuntu/jpatel74/website/* /var/www/html
+mv /var/www/html/password.php /var/www
