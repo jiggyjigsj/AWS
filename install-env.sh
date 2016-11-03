@@ -15,7 +15,7 @@ else
 	LBNAME=`aws elb create-load-balancer --load-balancer-name apache-lb --listeners Protocol=HTTP,LoadBalancerPort=80,InstanceProtocol=HTTP,InstancePort=80 --subnets subnet-88f6acec --security-groups sg-91e12ae8`
 	sleep 2
 	echo "Creating Launch Config"
-	aws autoscaling create-launch-configuration --launch-configuration-name $4 --image-id $1 --security-groups sg-91e12ae8 --key-name $2 --instance-type t2.micro --user-data file://installenv.sh
+	aws autoscaling create-launch-configuration --launch-configuration-name $4 --image-id $1 --security-groups sg-91e12ae8 --key-name $2 --instance-type t2.micro --user-data file://install-app.sh
 	sleep 2
 	echo "Creating auto scaling group"
 	aws autoscaling create-auto-scaling-group --auto-scaling-group-name apache-auto --launch-configuration apache-conf --availability-zone us-west-2b --load-balancer-name apache-lb --max-size 5 --min-size 2 --desired-capacity $5
