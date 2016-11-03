@@ -3,9 +3,9 @@ if [ -z ${5+x} ];
 then 
 	echo "Error You didn't provide all the needed Variables!"
 	echo "Look at the example needed below"
-	echo "EX: ./create-env.sh ami-06b94666 Jiggy sg-91e12ae8 apache-conf 3
+	echo "EX: ./install-env.sh ami-e7fb5d87 Jiggy sg-91e12ae8 apache-conf 3
 	   NAME                  Default Value
-	1. AMI ID 		 ami-06b94666
+	1. AMI ID 		 ami-e7fb5d87
 	2. key-name		 Jiggy
 	3. security-group	 sg-91e12ae8
 	4. launch-configuration  apache-conf

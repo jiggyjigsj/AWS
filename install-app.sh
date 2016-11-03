@@ -1,19 +1,22 @@
 #! /usr/bin/env bash
 
-apt-get update
-apt-get -y install git apache2 php-xml libapache2-mod-php php php-mysql curl php-curl zip unzip
+sudo apt-get update
+sudo apt-get -y install git apache2 php-xml libapache2-mod-php php php-mysql curl php-curl zip unzip
 
 cd /home/ubuntu
 
-curl -sS https://getcomposer.org/installer | php
+sudo curl -sS https://getcomposer.org/installer | php
 
-php composer.phar require aws/aws-sdk-php
+sudo php composer.phar require aws/aws-sdk-php
 
-systemctl enable apache2
-systemctl start apache2
+sudo systemctl enable apache2
+sudo systemctl start apache2
 
-mkdir /var/www/html/vendor
-mv vendor/* /var/www/html/vendor
+sudo git clone git@github.com:illinoistech-itm/jpatel74.git
 
-mv /home/ubuntu/jpatel74/website/* /var/www/html
-mv /var/www/html/password.php /var/www
+sudo rm -r /var/www/html/*
+sudo mkdir /var/www/html/vendor
+sudo mv vendor/* /var/www/html/vendor
+
+sudo mv /home/ubuntu/jpatel74/website/* /var/www/html
+sudo mv /var/www/html/password.php /var/www
