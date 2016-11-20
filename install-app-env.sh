@@ -15,4 +15,4 @@ aws sqs create-queue --queue-name MyQueue
 echo "Creating buckets"
 aws s3api create-bucket --bucket raw-jjp --acl public-read --region us-east-2
 aws s3api create-bucket --bucket finish-jjp --acl public-read --region us-east-2
-dbfirst.ccct71t5l9fe.us-west-2.rds.amazonaws.com:3306
+#dbfirst.ccct71t5l9fe.us-west-2.rds.amazonaws.com:3306
