@@ -7,4 +7,4 @@ $username= $_SESSION["username"];
 header("Location: welcome.php");
 }
 
-?>
+?>	

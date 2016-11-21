@@ -10,7 +10,11 @@
 	<ul class="nav navbar-nav">
 		<li><a class="navbar-brand" href="">Welcome <?php echo $username ?></a></li>
 		<li><a href="gallery.php">Gallery</a></li>
-		<li><a href="settings.php">Settings</a></li>
+		<li><a href="upload.php">Upload</a></li>
+			<?php 
+			if ($username == 'controller') {?>
+		<li><a href="admin.php">Admin</a></li>
+			<?php } ?>
 		<li><a href="logout.php">Logout <?php echo $username ?></a></li>
 	</ul>
 </div>

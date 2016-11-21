@@ -14,9 +14,14 @@ sudo systemctl start apache2
 
 sudo git clone git@github.com:illinoistech-itm/jpatel74.git
 
+sudo mkdir /tmp/uploads
+sudo chmod 777 /tmp/uploads
+
 sudo rm -r /var/www/html/*
 sudo mkdir /var/www/html/vendor
 sudo mv vendor/* /var/www/html/vendor
 
 sudo mv /home/ubuntu/jpatel74/website/* /var/www/html
 sudo mv /var/www/html/password.php /var/www
+
+chmod 777 /tmp/uploads

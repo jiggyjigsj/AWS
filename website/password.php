@@ -46,6 +46,7 @@ $create_table = 'CREATE TABLE IF NOT EXISTS records
     s3finishedurl VARCHAR(255) NOT NULL,
     status INT NOT NULL,
     issubscribed INT NOT NULL,
+    reciept VARCHAR(255) NULL,
     PRIMARY KEY(id)
 )';
 
