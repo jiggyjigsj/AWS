@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $username="jpatel74";
 $password="Pat3l120133";
@@ -19,19 +20,21 @@ $result = $client->describeDBInstances([
 
 $endpoint = $result['DBInstances'][0]['Endpoint']['Address'];
 $endpoint=$endpoint.':3306';
+// Set session variables
+$_SESSION["hostname"] = $endpoint;
 echo $endpoint;
 
-$conn = new mysqli($endpoint,$username, $password);
+$conn = new mysqli($_SESSION["hostname"],$username, $password);
 
 $sql = "CREATE DATABASE IF NOT EXISTS  app";
 if ($conn->query($sql) === TRUE) {
-    echo "Database created successfully";
+    
 } else {
     echo "Error creating database: " . $conn->error;
 }
 $conn->close();
 
-$link = mysqli_connect($endpoint,$username,$password,"app") or die("Error " . mysqli_error($link));
+$link = new mysqli($_SESSION["hostname"],$username,$password,"app");
 
 $create_table = 'CREATE TABLE IF NOT EXISTS records  
 (
@@ -48,23 +51,28 @@ $create_table = 'CREATE TABLE IF NOT EXISTS records
 
 $create_tbl = $link->query($create_table);
 
-$create_admin = 'CREATE TABLE IF NOT EXIST users
+$create_admin = 'CREATE TABLE IF NOT EXISTS users
 (
-	id INT NOT NULL AUTO_INCREMENT.
-	username VARCHAR(50) NOT NULL,
-	password VARCHAR(30) NOT NULL,
-	feature INT(1) NULL
+	id INT NOT NULL AUTO_INCREMENT,
+	username VARCHAR(50) NOT NULL UNIQUE,
+	password VARCHAR(50) NOT NULL,
+	feature INT(1) NULL,
+	PRIMARY KEY(id)
 )';
+$result = $link->query($create_admin);
+
+
 $check_users = "SELECT * FROM users";
 $chk_usr = $link->query($check_users);
 
-if (mysqli_num_rows($chk_usr)==0) { 
+$row_cnt = $chk_usr->num_rows;
 
-$insert = 'INSERT INTO TABLE users (`id`,`username`,`password`) VALUES (1,"admin","admin"),(2,"jpatel74@hawk.iit.edu","123456"),(3,"controller","password")';
+if ($row_cnt == 0) { 
+
+$insert = 'INSERT INTO users (`id`,`username`,`password`) VALUES (1,"admin","admin"),(2,"jpatel74@hawk.iit.edu","123456"),(3,"controller","password")';
 
 $insert_usr = $link->query($insert);
-
+$link->close();
 }
 
-$link->close();
 ?>
