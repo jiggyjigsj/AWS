@@ -36,7 +36,7 @@ if(isset($_POST['user']) && $_POST['user'] != '' && isset($_POST['password']) &&
     header("Location: gallery.php");
 
   } else {
-  echo '<span style="color: #f00;">Wrong Password Try Again</span>';
+  echo '<span style="color: #f00;">Wrong Username or Password Try Again</span>';
   }
 
 
@@ -44,6 +44,5 @@ $mysqli->close();
 }
 }
 ?>
-
-  </body>
+</body>
 </html>
