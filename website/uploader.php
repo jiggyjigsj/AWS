@@ -24,21 +24,21 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
+        echo "File is an image - " . $check["mime"] . ".<br>";
         $uploadOk = 1;
     } else {
-        echo "File is not an image.";
+        echo "File is not an image.<br>";
         $uploadOk = 0;
     }
 }
 
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
+    echo "Sorry, your file was not uploaded.<br>";
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.<br>";
 
 			$file=basename( $_FILES["fileToUpload"]["name"]);
 			$bucket = 'raw-jjp';
@@ -91,16 +91,28 @@ if ($uploadOk == 0) {
 		    'QueueName' => 'MyQueue', // REQUIRED
 		]);
 
-		echo $sqsresult['QueueURL'];
-		$queueUrl = $sqsresult['QueueURL'];
+		echo $sqsresult['QueueUrl']."<br>";
+		$queueUrl = $sqsresult['QueueUrl'];
 		$sqsresult = $sqsclient->sendMessage([
 		    'MessageBody' => $receipt, // REQUIRED
 		    'QueueUrl' => $queueUrl // REQUIRED
 		]);
-
-echo $sqsreult['MessageId'];
+				$user=$_POST['user'];
+		$phone=$_POST['phone'];
+		$filename=$_POST['filename'];
+		$status=0;
+		$s3finishedurl=' ';
+		$receipt=md5($s3rawurl);
+		$issubscribed=0;
+		echo "Unfinished URL for the image is: ". $s3rawurl. "<br>";
+		echo "SQS Job Message ID: ";
+		echo $sqsresult['MessageId']."<br>";
+		echo "<br>";
+		echo "View Your Images by navigating to Gallery Tab.";
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        echo "Sorry, there was an error uploading your file.<br>";
     }
 }
 ?>
+</body>
+</html>

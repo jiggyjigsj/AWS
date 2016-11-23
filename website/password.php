@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 $username="jpatel74";
 $password="Pat3l120133";
 
@@ -22,7 +20,6 @@ $endpoint = $result['DBInstances'][0]['Endpoint']['Address'];
 $endpoint=$endpoint.':3306';
 // Set session variables
 $_SESSION["hostname"] = $endpoint;
-echo $endpoint;
 
 $conn = new mysqli($_SESSION["hostname"],$username, $password);
 

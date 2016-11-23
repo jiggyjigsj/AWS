@@ -1,8 +1,8 @@
 <?php
 session_start();
-if (isset($_SESSION["username"]) && !empty($_SESSION["username"]))
+if (isset($_SESSION["user"]) && !empty($_SESSION["user"]))
 {
-$username= $_SESSION["username"];
+$username= $_SESSION["user"];
 } else {
 header("Location: welcome.php");
 }
