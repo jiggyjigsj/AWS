@@ -70,7 +70,6 @@ if ($row_cnt == 0) {
 $insert = 'INSERT INTO users (`id`,`username`,`password`) VALUES (1,"admin","admin"),(2,"jpatel74@hawk.iit.edu","123456"),(3,"controller","password")';
 
 $insert_usr = $link->query($insert);
-$link->close();
 }
-
+$link->close();
 ?>

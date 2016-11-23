@@ -14,7 +14,7 @@ $error ='<span style="color: #f00;">Required</span>';
 ?>
 <br><br><br><br>
 <form action="uploader.php" method="POST" enctype="multipart/form-data">
-User: <input type="text" name="user" value=<?php echo $username ?> readonly><br>
+User: <input type="text" name="user" value=<?php echo $user ?> readonly><br>
 Phone: <input type="text" name="phone" value="6304074614" ><br>
 File Name:<?php echo $error ?> <input type="text" name="filename"><br>
 Select File:<?php echo $error ?> <input type="file" name="fileToUpload" id="fileToUpload">

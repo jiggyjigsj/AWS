@@ -4,7 +4,7 @@ include '../password.php';
 
 if (isset($_SESSION["user"]) && !empty($_SESSION["user"]))
 {
-//header("Location: gallery.php");
+header("Location: gallery.php");
 } else {
 ?>
 <!DOCTYPE html>
