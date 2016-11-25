@@ -16,8 +16,8 @@ $result = $client->describeDBInstances([
     'DBInstanceIdentifier' => 'dbfirst'
 ]);
 
-$endpoint = $result['DBInstances'][0]['Endpoint']['Address'];
-$endpoint=$endpoint.':3306';
+$end = $result['DBInstances'][0]['Endpoint']['Address'];
+$endpoint=$end.':3306';
 // Set session variables
 $_SESSION["hostname"] = $endpoint;
 

@@ -34,6 +34,8 @@ $up = "SELECT * FROM admin WHERE feature='upload'";
 $result = $mysqli->query($up);
 $res = $result->fetch_assoc();
 $upload = $res['status'];
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,11 +63,64 @@ value="1">On
 <input type="radio" name="upload"
 <?php if ($upload == '0') echo "checked ";?>
 value="0">Off</h4>
-<input class="btn btn-danger" type="submit" value="Submit">
+<input class="btn btn-danger" type="submit" value="uploadSubmit">
 </form></center>
-<?php
+<br><br>
+<center>
+<form class="form-inline" action="#" method="post">
+<input class="btn btn-danger" type='submit' value='DUMP DATABASE' name='sqlsubmitbutton'>
+</form></center>
+<br><br>
+<center>
+<form action="#" method="POST" enctype="multipart/form-data">
+Select File:<input type="file" name="fileToUpload" id="fileToUpload">
+<input class="btn btn-danger" type='submit' value='RESTORE DATABASE' name='sqlupload'>
+</form></center
 
-if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+<?php
+if ( isset($_POST['sqlupload'])) {
+
+$target_dir = "/tmp/";
+$target_file = $target_dir . "database.sql";// basename($_FILES["fileToUpload"]["name"]);
+$uploadOk = 1;
+$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
+    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.<br>";
+        $db = "app";
+    $command = "mysql --host={$end} --user={$username} --password={$password} --database={$db} < $target_file";
+   echo $command;
+   exec($command);
+      //exec ("mysql  --user={$username} --password={$password} --database=app < $target_file");
+      //echo $cmd;
+      //echo $target_file;
+      //exec($cmd);
+} 
+}
+
+if ( isset($_POST['sqlsubmitbutton'])) {
+  $file="/tmp/database.sql";
+  exec( "mysqldump -h $end -u $username --password=$password app > $file");
+  
+  if (file_exists($file))
+    {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename='.basename($file));
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    ob_clean();
+    flush();
+    readfile($file);
+    exec( " > $file");
+    exec( "rm $file");
+    exit;
+    }
+}
+
+if ( isset($_POST['uploadSubmit'])) {
   $fea = $_POST['upload'];
   echo $fea;
   //UPDATE table_name SET column1=value1,column2=value2,... WHERE some_column=some_value;
