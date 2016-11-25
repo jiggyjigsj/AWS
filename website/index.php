@@ -24,6 +24,7 @@ header("Location: gallery.php");
 <div class="transbox">
     <div class="jumbotron text-center">
     <h1>Login to view Gallery</h1> 
+    <h4> Two Users: Username: (admin user) admin Password admin ; jpatel74@hawk.iit.edu : 123456 ; controller : password ;
 <center>
 <form class="form-inline" action="#" method="post">
 Username:</span> <input type="text" class="form-control" name="user" size "25"><br>

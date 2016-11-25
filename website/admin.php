@@ -41,7 +41,7 @@ $upload = $res['status'];
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>Admin Page</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <style>

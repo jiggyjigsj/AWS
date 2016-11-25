@@ -14,6 +14,6 @@ if (isset($_SESSION["user"]) && !empty($_SESSION["user"]))
 {
 	echo "Unable to logout!";
 } else {
-header("Location: welcome.php");
+header("Location: index.php");
 }
 ?>
