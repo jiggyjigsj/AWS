@@ -14,7 +14,7 @@ include 'nav.php';
 include '../password.php';
 $mysqli = new mysqli($_SESSION["hostname"],$username,$password,"app");
 $user = $_SESSION['user'];
-$sql = "SELECT * FROM records where email = '$user'";
+$sql = "SELECT * FROM records where email = '$user' AND status='1'";
 
 $result = $mysqli->query($sql);
 ?> 

@@ -1,6 +1,8 @@
 <?php
 require 'vendor/autoload.php';
 include '../password.php';
+use Aws\S3\S3Client;
+use Aws\S3\Exception\S3Exception;
 
 $client = new Aws\Sqs\SqsClient([
 'region'  => 'us-west-2',
@@ -38,13 +40,14 @@ echo $queueUrl;
 	$db="app";
 
 	$conn = new mysqli($host,$username, $password,$db);
-	$sql = "SELECT * FROM records WHERE RECEIPT = '$body'";
+	$sql = "SELECT * FROM records WHERE receipt = '$body'";
 	$result = $conn->query($sql);
 	$res = $result->fetch_assoc();
 	
 	$rawurl=$res['s3rawurl'];
 	copy($rawurl, '/tmp/file.jpeg');
 	$raw = '/tmp/file.jpeg';
+	$finish = '/tmp/rendered.png';
 
 	// load the "stamp" and photo to apply the water mark to
 	$stamp = imagecreatefrompng('IIT-logo.png');  // grab this locally or from an S3 bucket probably easier from an S3 bucket...
@@ -60,9 +63,29 @@ echo $queueUrl;
 
 	//output and free memory
 	//header('Content-type: image/png');
-	imagepng($im,'/tmp/rendered.png');
+	imagepng($im,$finish);
 
 	imagedestroy($im);
+
+	$bucket = 'raw-jjp';
+	$keyname = 'FinishedFile';
+	
+	$s3= S3Client::factory(array(
+		'region'  => 'us-east-1',
+		'version' => 'latest',
+		'credentials' => false
+	));
+    $result = $s3->putObject(array(
+    	'Bucket'     => $bucket,
+    	'Key'        => $keyname,
+    	'SourceFile' => $finish,
+		'ACL' 	     => 'public-read'
+	));
+    $s3finished=$result['ObjectURL'];
+    $status = '1';
+
+   	$sql = "UPDATE records SET s3finishedurl='$s3finished', status='$status' WHERE receipt = '$body'";
+	$result = $conn->query($sql);
 
 
 
