@@ -18,16 +18,21 @@ $result = $mysqli->query($chk_adm);
 $res = $result->fetch_assoc();
 $error ='<span style="color: #f00;">Required</span>';
 ?>
+<div class="background">
+<div class="transbox">
 <br><br><br><br>
+    <div class="jumbotron text-center">
 <form action="uploader.php" method="POST" enctype="multipart/form-data">
-User: <input type="text" name="user" value=<?php echo $user ?> readonly><br>
-Phone: <input type="text" name="phone" value="6304074614" ><br>
-File Name:<?php echo $error ?> <input type="text" name="filename"><br>
-Select File:<?php echo $error ?> <input type="file" name="fileToUpload" id="fileToUpload">
+User: <input type="text" class="form-control" name="user" size "25" value=<?php echo $user ?> readonly><br>
+Phone: <input type="text" class="form-control" name="phone" size "25" value="6304074614" ><br>
+File Name:<?php echo $error ?> <input type="text" class="form-control"  size "25"  name="filename"><br>
+Select File:<?php echo $error ?> <input type="file" class="form-control" size "25"  name="fileToUpload" id="fileToUpload">
 <?php
-if ($res['status'] == 1) { ?><input type="submit" value="Submit"> <?php
+if ($res['status'] == 1) { ?><input type="submit" class="btn btn-danger" value="Submit"> <?php
 } else {echo "<h4>Upload feature has been turned off</h4>"; }?>
 </form>
-
+</div>
+</div>
+</div>
 </body>
 </html>

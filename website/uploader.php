@@ -7,7 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, scale-to-fit=no">
 </head>
 <body>
-
+<div class="background">
+<div class="transbox">
 <?php
 require 'vendor/autoload.php';
 use Aws\S3\S3Client;
@@ -24,21 +25,21 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".<br>";
+        echo "<h4>File is an image - " . $check["mime"] . ".</h4><br>";
         $uploadOk = 1;
     } else {
-        echo "File is not an image.<br>";
+        echo "<h4>File is not an image.</h4><br>";
         $uploadOk = 0;
     }
 }
 
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.<br>";
+    echo "<h4>Sorry, your file was not uploaded.</h4><br>";
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.<br>";
+        echo "<h4>The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.</h4><br>";
 
 			$file=basename( $_FILES["fileToUpload"]["name"]);
 			$bucket = 'raw-jjp';
@@ -91,7 +92,7 @@ if ($uploadOk == 0) {
 		    'QueueName' => 'MyQueue', // REQUIRED
 		]);
 
-		echo $sqsresult['QueueUrl']."<br>";
+		echo "<h4>".$sqsresult['QueueUrl']."</h4><br>";
 		$queueUrl = $sqsresult['QueueUrl'];
 		$sqsresult = $sqsclient->sendMessage([
 		    'MessageBody' => $receipt, // REQUIRED
@@ -104,15 +105,17 @@ if ($uploadOk == 0) {
 		$s3finishedurl=' ';
 		$receipt=md5($s3rawurl);
 		$issubscribed=0;
-		echo "Unfinished URL for the image is: ". $s3rawurl. "<br>";
-		echo "SQS Job Message ID: ";
-		echo $sqsresult['MessageId']."<br>";
+		echo "<h4>Unfinished URL for the image is: ". $s3rawurl. "</h4><br>";
+		echo "<h4>SQS Job Message ID: </h4>";
+		echo "<h4>".$sqsresult['MessageId']."</h4><br>";
 		echo "<br>";
-		echo "View Your Images by navigating to Gallery Tab.";
+		echo "<h4>View Your Images by navigating to Gallery Tab.</h4>";
     } else {
-        echo "Sorry, there was an error uploading your file.<br>";
+        echo "<h1>Sorry, there was an error uploading your file.</h1><br>";
     }
 }
 ?>
+</div>
+</div>
 </body>
 </html>

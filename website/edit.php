@@ -68,7 +68,7 @@ echo $queueUrl;
 	imagedestroy($im);
 
 	$bucket = 'raw-jjp';
-	$keyname = 'FinishedFile';
+	$keyname = 'Rendered.jpeg';
 	
 	$s3= S3Client::factory(array(
 		'region'  => 'us-east-1',
@@ -89,10 +89,12 @@ echo $queueUrl;
 
 
 
-   /* $result = $client->deleteMessage(array(
+   $result = $client->deleteMessage(array(
     // QueueUrl is required
     'QueueUrl' => $queueUrl,
     // ReceiptHandle is required
     'ReceiptHandle' => $ReceiptHandle,
-	));*/
+	));
+   	shell_exec('rm $finish');
+   	$conn->close();
 ?>

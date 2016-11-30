@@ -12,7 +12,7 @@ header("Location: gallery.php");
   <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+            <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, scale-to-fit=no">
     <style>
@@ -50,11 +50,11 @@ if(isset($_POST['user']) && $_POST['user'] != '' && isset($_POST['password']) &&
   echo '<span style="color: #f00;">Wrong Username or Password Try Again</span>';
   }
 
-
+echo "</div>";
 $mysqli->close();
 }
 }
 ?>
- </div></div></div>
+ </div></div>
 </body>
 </html>

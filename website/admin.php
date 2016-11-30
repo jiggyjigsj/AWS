@@ -6,8 +6,8 @@ if ($user != "admin"){
   header("Location: gallery.php");
 } else {
 //Insert into table:
+$mysqli = new mysqli($_SESSION["hostname"],$username,$password,"app");
 
-}
 $up = "SELECT * FROM admin WHERE feature='upload'";
 
 $result = $mysqli->query($up);
@@ -42,7 +42,7 @@ value="1">On
 <input type="radio" name="upload"
 <?php if ($upload == '0') echo "checked ";?>
 value="0">Off</h4>
-<input class="btn btn-danger" type="submit" value="uploadSubmit">
+<input class="btn btn-danger" type="submit" name= "Upload" value="Update Feature">
 </form></center>
 <br><br>
 <center>
@@ -99,7 +99,7 @@ if ( isset($_POST['sqlsubmitbutton'])) {
     }
 }
 
-if ( isset($_POST['uploadSubmit'])) {
+if ( isset($_POST['Upload'])) {
   $fea = $_POST['upload'];
   echo $fea;
   //UPDATE table_name SET column1=value1,column2=value2,... WHERE some_column=some_value;
