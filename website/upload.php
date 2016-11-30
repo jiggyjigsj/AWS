@@ -16,7 +16,6 @@ include 'password.php';
 $chk_adm = "SELECT * FROM admin where feature = 'upload'";
 $result = $mysqli->query($chk_adm);
 $res = $result->fetch_assoc();
-
 $error ='<span style="color: #f00;">Required</span>';
 ?>
 <br><br><br><br>

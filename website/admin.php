@@ -6,28 +6,7 @@ if ($user != "admin"){
   header("Location: gallery.php");
 } else {
 //Insert into table:
-  $mysqli = new mysqli($_SESSION["hostname"],$username,$password,"app");
 
-  
-$admin = 'CREATE TABLE IF NOT EXISTS admin
-(
-  id INT NOT NULL AUTO_INCREMENT,
-  feature VARCHAR(50) NOT NULL UNIQUE,
-  status INT(1) NULL,
-  PRIMARY KEY(id)
-)';
-$result = $mysqli->query($admin);
-
-$chk_adm = "SELECT * FROM admin";
-$check_admin = $mysqli->query($chk_adm);
-
-$row_cnt = $check_admin->num_rows;
-
-if ($row_cnt == 0) { 
-
-$insert = 'INSERT INTO admin (`id`,`feature`,`status`) VALUES (1,"upload",1)';
-
-$insert_usr = $mysqli->query($insert);
 }
 $up = "SELECT * FROM admin WHERE feature='upload'";
 

@@ -16,7 +16,7 @@ include 'nav.php';
 include '../password.php';
 echo '<br><br><br><br>';
 
-$target_dir = "/tmp/uploads/";
+$target_dir = "/tmp/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);

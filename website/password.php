@@ -53,8 +53,8 @@ $create_admin = 'CREATE TABLE IF NOT EXISTS users
 (
 	id INT NOT NULL AUTO_INCREMENT,
 	username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(50) NULL,
 	password VARCHAR(50) NOT NULL,
-	feature INT(1) NULL,
 	PRIMARY KEY(id)
 )';
 $result = $link->query($create_admin);
@@ -67,9 +67,29 @@ $row_cnt = $chk_usr->num_rows;
 
 if ($row_cnt == 0) { 
 
-$insert = 'INSERT INTO users (`id`,`username`,`password`) VALUES (1,"admin","admin"),(2,"jpatel74@hawk.iit.edu","123456"),(3,"controller","password")';
+$insert = 'INSERT INTO users (`id`,`username`,`email`,`password`) VALUES (1,"controller","","password"),(2,"jpatel74@hawk.iit.edu","jpatel74@hawk.iit.edu","123456"),(3,"admin","admin@localhost","admin")';
 
 $insert_usr = $link->query($insert);
 }
+  
+$admin = 'CREATE TABLE IF NOT EXISTS admin
+(
+  id INT NOT NULL AUTO_INCREMENT,
+  feature VARCHAR(50) NOT NULL UNIQUE,
+  status INT(1) NULL,
+  PRIMARY KEY(id)
+)';
+$result = $link->query($admin);
+
+$chk_adm = "SELECT * FROM admin";
+$check_admin = $link->query($chk_adm);
+
+$row_cnt = $check_admin->num_rows;
+
+if ($row_cnt == 0) { 
+
+$insert = 'INSERT INTO admin (`id`,`feature`,`status`) VALUES (1,"upload",1)';
+
+$insert_usr = $link->query($insert);}
 $link->close();
 ?>
