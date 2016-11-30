@@ -20,6 +20,7 @@ $end = $result['DBInstances'][0]['Endpoint']['Address'];
 $endpoint=$end.':3306';
 // Set session variables
 $_SESSION["hostname"] = $endpoint;
+$host = $_SESSION["hostname"];
 
 $conn = new mysqli($_SESSION["hostname"],$username, $password);
 
