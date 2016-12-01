@@ -6,7 +6,6 @@ aws rds wait db-instance-available
 echo "--db-instance-identifier: dbfirst | --master-username : jpatel74 | --master-user-password : P@t3l120133"
 URL=`aws rds describe-db-instances --query 'DBInstances[*].[Endpoint.Address]'`
 echo "Your Database URL is: $URL"
-#echo "$hostname = '$URL'" >> /website/password.php
 echo "Creating SNS topic named my-topic"
 SNS=`aws sns create-topic --name my-topic`
 aws sns subscribe --topic-arn $SNS --protocol email --notification-endpoint jpatel74@hawk.iit.edu
@@ -16,6 +15,5 @@ aws sns subscribe --topic-arn $SNS --protocol sms --notification-endpoint 630440
 echo "Creating a queue"
 aws sqs create-queue --queue-name MyQueue
 echo "Creating buckets"
-#aws s3api create-bucket --bucket raw-jjp --acl public-read --region us-east-2
-#aws s3api create-bucket --bucket finish-jjp --acl public-read --region us-east-2
-#dbfirst.ccct71t5l9fe.us-west-2.rds.amazonaws.com:3306
+aws s3api create-bucket --bucket raw-jjp --acl public-read-write --region us-east-2
+aws s3api create-bucket --bucket finish-jjp --acl public-read-write --region us-east-2

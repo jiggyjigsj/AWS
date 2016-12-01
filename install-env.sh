@@ -29,5 +29,5 @@ else
 	echo "Load balancers live on: " $LBNAME
 	echo "But please wait atleast a minute before accessing"
 echo "Creating worker instance"
-aws ec2 run-instances --image-id ami-e7fb5d87 --security-group-ids sg-91e12ae8 --key-name Jiggy --instance-type t2.micro --iam-instance-profile Name=developer --user-data file://install-app.sh --placement AvailabilityZone=us-west-2b
+aws ec2 run-instances --image-id ami-e7fb5d87 --security-group-ids sg-91e12ae8 --key-name Jiggy --instance-type t2.micro --iam-instance-profile Name=developer --user-data file://install-app-worker.sh --placement AvailabilityZone=us-west-2b
 fi
