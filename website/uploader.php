@@ -20,11 +20,11 @@ $mysqli = new mysqli($_SESSION["hostname"],$username,$password,"app");
 
 $keyname = $_POST["filename"];
 
-$chk_adm = "SELECT * FROM reports where filename = '$keyname'";
+$chk_adm = "SELECT * FROM records where filename = '$keyname'";
 $result = $mysqli->query($chk_adm);
 $row_cnt = $result->num_rows;
 
-if ($row_cnt == '0'){
+if ($row_cnt == '1'){
 	$uploadOk = 0;
 	echo "<h4>File name Already Exist!</h4>";
 }

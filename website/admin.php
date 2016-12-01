@@ -68,7 +68,6 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
         echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.<br>";
         $db = "app";
     $command = "mysql --host={$end} --user={$username} --password={$password} --database={$db} < $target_file";
-   echo $command;
    exec($command);
       //exec ("mysql  --user={$username} --password={$password} --database=app < $target_file");
       //echo $cmd;

@@ -3,6 +3,7 @@ require 'vendor/autoload.php';
 include '../password.php';
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
+use Aws\Sns\SnsClient;
 
 $client = new Aws\Sqs\SqsClient([
 'region'  => 'us-west-2',
@@ -88,7 +89,11 @@ echo $queueUrl;
    	$sql = "UPDATE records SET s3finishedurl='$s3finished', status='$status' WHERE receipt = '$body'";
 	$result = $conn->query($sql);
 
-
+	$s3= SnsClient::factory(array(
+		'region'  => 'us-east-1',
+		'version' => 'latest',
+		'credentials' => false
+	));
 
    $result = $client->deleteMessage(array(
     // QueueUrl is required

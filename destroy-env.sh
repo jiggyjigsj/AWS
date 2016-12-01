@@ -12,15 +12,9 @@ echo "
       (_/     \_)         
 "
 echo "GET TO THE CHOPPA!!!"
-ID=
-ID=`aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone, State.Name, InstanceId]' | grep -E 'running|pending' | awk '{print $3}'`
-if [ -z "$ID" ];
-then
-echo "No Instances Found"
-else
-echo "Here are all running instances: " $ID
-fi
+#Setting Autoscaling name
 AutoName=`aws autoscaling describe-auto-scaling-groups --query 'AutoScalingGroups[*].[AutoScalingGroupName]'`
+#Checking if autscale exist
 if [ -z "$AutoName" ];
 then
 echo "No Instances Found"
@@ -28,14 +22,17 @@ else
 echo "Updating autoscaling group"
 aws autoscaling update-auto-scaling-group --auto-scaling-group-name $AutoName --min-size 0 --max-size 0 --desired-capacity 0
 fi
+ID=
 ID=`aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone, State.Name, InstanceId]' | grep -E 'running|pending' | awk '{print $3}'`
-if [ "$ID" ]; then
-	echo "Waiting till instances terminate"
-	aws ec2 wait instance-terminated
+if [ -z "$ID" ];
+then
+echo "No Additional Instances Found"
 else
-	echo "Waiting till instances terminate"
-	aws ec2 terminate-instances --instance-ids $ID
-	aws ec2 wait instance-terminated
+echo "Here are all running instances: " $ID
+aws ec2 terminate-instances --instance-ids $ID
+sleep 5
+echo "Waiting till instances terminate"
+aws ec2 wait instance-terminated
 fi
 if [ -z "$AutoName" ];
 then

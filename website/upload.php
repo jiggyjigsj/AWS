@@ -10,7 +10,7 @@
 <body>
 <?php
 include 'nav.php';
-include 'password.php';
+include '../password.php';
   $mysqli = new mysqli($_SESSION["hostname"],$username,$password,"app");
 
 $chk_adm = "SELECT * FROM admin where feature = 'upload'";

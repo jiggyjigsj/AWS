@@ -10,9 +10,12 @@ echo "Your Database URL is: $URL"
 echo "Creating SNS topic named my-topic"
 SNS=`aws sns create-topic --name my-topic`
 aws sns subscribe --topic-arn $SNS --protocol email --notification-endpoint jpatel74@hawk.iit.edu
+aws sns subscribe --topic-arn $SNS --protocol sms --notification-endpoint 2243057990
+aws sns subscribe --topic-arn $SNS --protocol sms --notification-endpoint 6304074614
+aws sns subscribe --topic-arn $SNS --protocol sms --notification-endpoint 6304403730
 echo "Creating a queue"
 aws sqs create-queue --queue-name MyQueue
 echo "Creating buckets"
-aws s3api create-bucket --bucket raw-jjp --acl public-read --region us-east-2
-aws s3api create-bucket --bucket finish-jjp --acl public-read --region us-east-2
+#aws s3api create-bucket --bucket raw-jjp --acl public-read --region us-east-2
+#aws s3api create-bucket --bucket finish-jjp --acl public-read --region us-east-2
 #dbfirst.ccct71t5l9fe.us-west-2.rds.amazonaws.com:3306
