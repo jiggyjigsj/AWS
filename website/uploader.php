@@ -16,6 +16,19 @@ use Aws\S3\Exception\S3Exception;
 include 'nav.php';
 include '../password.php';
 echo '<br><br><br><br>';
+$mysqli = new mysqli($_SESSION["hostname"],$username,$password,"app");
+
+$keyname = $_POST["filename"];
+
+$chk_adm = "SELECT * FROM reports where filename = '$keyname'";
+$result = $mysqli->query($chk_adm);
+$row_cnt = $result->num_rows;
+
+if ($row_cnt == '0'){
+	$uploadOk = 0;
+	echo "<h4>File name Already Exist!</h4>";
+}
+
 
 $target_dir = "/tmp/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -25,27 +38,54 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
-        echo "<h4>File is an image - " . $check["mime"] . ".</h4><br>";
+        echo "<h4>File is an image - " . $check["mime"] . ".</h4>";
         $uploadOk = 1;
     } else {
-        echo "<h4>File is not an image.</h4><br>";
+        echo "<h4>File is not an image.</h4>";
         $uploadOk = 0;
     }
 }
 
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-    echo "<h4>Sorry, your file was not uploaded.</h4><br>";
+    echo "<h4>Sorry, your file was not uploaded.</h4>";
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "<h4>The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.</h4><br>";
+        echo "<h4>The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.</h4>";
+		$filename=$_POST['filename'];
+	    function convertImage($originalImage, $outputImage, $quality)
+		{
+		    // jpg, png, gif or bmp?
+		    $exploded = explode('.',$originalImage);
+		    $ext = $exploded[count($exploded) - 1]; 
+
+		    if (preg_match('/jpg|jpeg/i',$ext))
+		        $imageTmp=imagecreatefromjpeg($originalImage);
+		    else if (preg_match('/png/i',$ext))
+		        $imageTmp=imagecreatefrompng($originalImage);
+		    else if (preg_match('/gif/i',$ext))
+		        $imageTmp=imagecreatefromgif($originalImage);
+		    else if (preg_match('/bmp/i',$ext))
+		        $imageTmp=imagecreatefrombmp($originalImage);
+		    else
+		        return 0;
+
+		    // quality is a value from 0 (worst) to 100 (best)
+		    imagejpeg($imageTmp, $outputImage, $quality);
+		    imagedestroy($imageTmp);
+
+		    return 1;
+		}
 
 			$file=basename( $_FILES["fileToUpload"]["name"]);
 			$bucket = 'raw-jjp';
-			$keyname = basename( $_FILES["fileToUpload"]["name"]);
+			$key = $keyname.".jpeg";
 			$path = $target_file;
-			
+			$filenew="$path.jpeg";
+			$quality ='100';
+			convertImage($path,$filenew,$quality);
+
 			$s3= S3Client::factory(array(
 			'region'  => 'us-east-1',
 			'version' => 'latest',
@@ -53,21 +93,18 @@ if ($uploadOk == 0) {
 		));
 		    	$result = $s3->putObject(array(
 		    	'Bucket'     => $bucket,
-		    	'Key'        => $keyname,
-		    	'SourceFile' => $path,
+		    	'Key'        => $key,
+		    	'SourceFile' => $filenew,
 			'ACL' 	     => 'public-read'
 		));
 		$s3rawurl=$result['ObjectURL'];
 
 		$user=$_POST['user'];
 		$phone=$_POST['phone'];
-		$filename=$_POST['filename'];
 		$status=0;
 		$s3finishedurl=' ';
 		$receipt=md5($s3rawurl);
 		$issubscribed=0;
-
-		$mysqli = new mysqli($_SESSION["hostname"],$username,$password,"app");
 
 		/* Prepared statement, stage 1: prepare */
 		if (!($stmt = $mysqli->prepare("INSERT INTO records (id, email, phone, filename, s3rawurl, s3finishedurl, status, issubscribed, receipt) VALUES (NULL,?,?,?,?,?,?,?,?)"))) {
@@ -92,26 +129,17 @@ if ($uploadOk == 0) {
 		    'QueueName' => 'MyQueue', // REQUIRED
 		]);
 
-		echo "<h4>".$sqsresult['QueueUrl']."</h4><br>";
 		$queueUrl = $sqsresult['QueueUrl'];
 		$sqsresult = $sqsclient->sendMessage([
 		    'MessageBody' => $receipt, // REQUIRED
 		    'QueueUrl' => $queueUrl // REQUIRED
 		]);
-				$user=$_POST['user'];
-		$phone=$_POST['phone'];
-		$filename=$_POST['filename'];
-		$status=0;
-		$s3finishedurl=' ';
-		$receipt=md5($s3rawurl);
-		$issubscribed=0;
-		echo "<h4>Unfinished URL for the image is: ". $s3rawurl. "</h4><br>";
-		echo "<h4>SQS Job Message ID: </h4>";
-		echo "<h4>".$sqsresult['MessageId']."</h4><br>";
-		echo "<br>";
+
+		echo "<h4>Unfinished URL for the image is: ". $s3rawurl. "</h4>";
+		echo "<h4>SQS Job Message ID: <h4>".$sqsresult['MessageId']."</h4>";
 		echo "<h4>View Your Images by navigating to Gallery Tab.</h4>";
     } else {
-        echo "<h1>Sorry, there was an error uploading your file.</h1><br>";
+        echo "<h1>Sorry, there was an error uploading your file.</h1>";
     }
 }
 ?>

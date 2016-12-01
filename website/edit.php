@@ -12,7 +12,8 @@ $client = new Aws\Sqs\SqsClient([
 	'secret' => 'LzDyuGMMoWeEjmJkNDmDq2tciy6c4+nDkrY22rnr']
 ]);
 
-
+//exec('rm /tmp/Rendered.png');
+//exec('rm /tmp/file.jpeg');
 // Code to retrieve the Queue URLs
 $result = $client->getQueueUrl([
     'QueueName' => 'MyQueue', // REQUIRED
@@ -43,15 +44,15 @@ echo $queueUrl;
 	$sql = "SELECT * FROM records WHERE receipt = '$body'";
 	$result = $conn->query($sql);
 	$res = $result->fetch_assoc();
-	
-	$rawurl=$res['s3rawurl'];
-	copy($rawurl, '/tmp/file.jpeg');
-	$raw = '/tmp/file.jpeg';
-	$finish = '/tmp/rendered.png';
 
+
+	$rawurl=$res['s3rawurl'];
+	$rawfile = "/tmp/file.jpeg";
+	file_put_contents("/tmp/file.jpeg", file_get_contents($rawurl));
+	$finish = '/tmp/rendered.png';
 	// load the "stamp" and photo to apply the water mark to
 	$stamp = imagecreatefrompng('IIT-logo.png');  // grab this locally or from an S3 bucket probably easier from an S3 bucket...
-	$im = imagecreatefromjpeg($raw);  // replace this path with $rawurl
+	$im = imagecreatefromjpeg($rawfile);  // replace this path with $rawurl
 
 	//Set the margins for the stamp and get the height and width of the stamp image
 	$marge_right=0.5;
@@ -67,8 +68,8 @@ echo $queueUrl;
 
 	imagedestroy($im);
 
-	$bucket = 'raw-jjp';
-	$keyname = 'Rendered.jpeg';
+	$bucket = 'finish-jjp';
+	$keyname = $res['filename'].".png";
 	
 	$s3= S3Client::factory(array(
 		'region'  => 'us-east-1',
@@ -95,6 +96,7 @@ echo $queueUrl;
     // ReceiptHandle is required
     'ReceiptHandle' => $ReceiptHandle,
 	));
-   	shell_exec('rm $finish');
+   	exec('rm $rawfile');
+   	exec('rm $finish');
    	$conn->close();
 ?>
