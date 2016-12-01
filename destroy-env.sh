@@ -85,6 +85,13 @@ else
 echo "Deleting Queue"
 aws sqs delete-queue --queue-url $QueueURLS
 fi
+Buckets=`aws s3api list-buckets --query 'Buckets[].Name'`
+if [ -z "$Buckets" ];
+then
+echo "No Buckets Found"
+else
+aws s3api delete-bucket --bucket $Buckets --region us-east-2
+fi
 echo "If you didn't didn't get to the CHOPA by now its too late!!!"
 echo "
                   ..-^~~~^-..
