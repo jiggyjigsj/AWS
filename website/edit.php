@@ -102,12 +102,11 @@ echo $queueUrl;
         $snstopic = $res['Topics'];
         $snsArn = $snstopic[0]; 
         $arn = $snsArn['TopicArn'];
-/*$publish = $sns->publish([
-        'TopicArn' => $arn,
-        'Message' => $msg,
-]);*/
-
-
+        $msg = $ReceiptHandle. " Has been finished!";
+    $publish = $sns->publish([
+            'TopicArn' => $arn,
+            'Message' => $msg,
+    ]);
 
    $result = $client->deleteMessage(array(
     // QueueUrl is required
