@@ -58,8 +58,6 @@ p2{
 div.transbox img {
 	{  margin: 5%;000000
   font-weight: bold;
-  opacity:0.9;
-  filter:alpha(opacity=90);
   color: red;}
 }
 div.transbox
@@ -72,18 +70,16 @@ div.transbox
 div.transbox h1
 {  margin: 5%;000000
   font-weight: bold;
-  opacity:0.9;
-  filter:alpha(opacity=90);
   color: red;}
   div.transbox h2
 {  margin: 5%;000000
   font-weight: bold;
-  opacity:0.9;
-  filter:alpha(opacity=90);
   color: red;}
   div.transbox h4
 {  margin: 5%;000000
   font-weight: bold;
-  opacity:0.9;
-  filter:alpha(opacity=90);
+  color: red;}
+    div.transbox h3
+{  margin: 5%;000000
+  font-weight: bold;
   color: red;}

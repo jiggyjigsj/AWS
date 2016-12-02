@@ -22,12 +22,12 @@ $error ='<span style="color: #f00;">Required</span>';
 <div class="transbox">
 <br><br><br><br>
     <div class="jumbotron text-center">
-<form action="uploader.php" method="POST" enctype="multipart/form-data">
+<h3><form class="form-inline" action="uploader.php" method="POST" enctype="multipart/form-data">
 User: <input type="text" class="form-control" name="user" size "25" value=<?php echo $user ?> readonly><br>
 Phone: <input type="text" class="form-control" name="phone" size "25" value="6304074614" ><br>
 File Name:<?php echo $error ?> <input type="text" class="form-control"  size "25"  name="filename"><br>
 Select File:<?php echo $error ?> <input type="file" class="form-control" size "25"  name="fileToUpload" id="fileToUpload">
-<?php
+</h3><?php
 if ($res['status'] == 1) { ?><input type="submit" class="btn btn-danger" value="Submit"> <?php
 } else {echo "<h4>Upload feature has been turned off</h4>"; }?>
 </form>

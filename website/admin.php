@@ -73,6 +73,7 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
       //echo $cmd;
       //echo $target_file;
       //exec($cmd);
+     header("Location: admin.php");
 } 
 }
 
@@ -95,6 +96,7 @@ if ( isset($_POST['sqlsubmitbutton'])) {
     exec( " > $file");
     exec( "rm $file");
     exit;
+    header("Location: admin.php");
     }
 }
 
@@ -107,6 +109,7 @@ $up = "UPDATE admin SET status=$fea WHERE feature='upload'";
 $result = $mysqli->query($up);
 }
 $mysqli->close();
+header("Location: admin.php");
 }
 ?>
  </div></div></div>

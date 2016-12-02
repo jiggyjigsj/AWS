@@ -21,23 +21,27 @@ $result = $mysqli->query($sql);
 
 <div class="background">
 <div class="transbox">
-<center><table>
-	<tr>
-		<th>Raw</th>
-        <th>Finished</th>
+<h3><center><table>
+	<tr align="center">
+		<th>Title</th>
+    <th>Raw Image</th>
+    <th>Finished Image</th>
 	</tr>
+<br>
 <?php	
 while($row = $result->fetch_assoc())
 {
+   $title = $row['filename']." ";
    $raw = $row['s3rawurl']." ";
    $finish = $row['s3finishedurl']." ";
 ?>
-<tr>
+<tr align="center">
+  <td><?php echo $title ?> </td>
 	<td><img src=<?php echo $raw ?> alt="" border=3 height=350 width=350><td>
 	<td><img src=<?php echo $finish ?> alt="" border=3 height=350 width=350><td>
 </tr> <br> <?php
 } ?>
-</table></center>
+</table></h3>
 </div>
 </div>
 <?php

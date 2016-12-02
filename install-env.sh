@@ -3,9 +3,9 @@ if [ -z ${5+x} ];
 then 
 	echo "Error You didn't provide all the needed Variables!"
 	echo "Look at the example needed below"
-	echo "EX: ./install-env.sh ami-cea009ae Jiggy sg-91e12ae8 apache-conf 3
+	echo "EX: ./install-env.sh ami-7d6bc21d Jiggy sg-91e12ae8 apache-conf 3
 	   NAME                  Default Value
-	1. AMI ID 		 ami-e7fb5d87
+	1. AMI ID 		 ami-7d6bc21d
 	2. key-name		 Jiggy
 	3. security-group	 sg-91e12ae8
 	4. launch-configuration  apache-conf
@@ -30,5 +30,5 @@ else
 	echo "But please wait atleast a minute before accessing"
 echo "Creating worker instance"
 aws ec2 run-instances --image-id $1 --security-group-ids $3 --key-name $2 --instance-type t2.micro --iam-instance-profile Name=developer --user-data file://install-app-worker.sh --placement AvailabilityZone=us-west-2b
-./install-app-worker.sh
+sudo ./install-app-worker.sh
 fi

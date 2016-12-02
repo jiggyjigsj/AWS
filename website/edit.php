@@ -92,6 +92,23 @@ echo $queueUrl;
 		'credentials' => false
 	));
 
+    $sns= SnsClient::factory(array(
+            'region'  => 'us-west-2',
+            'version' => 'latest',
+    ));
+  	$res = $sns->listTopics([
+    'Topic' => 'my-topic',
+	]); 
+        $snstopic = $res['Topics'];
+        $snsArn = $snstopic[0]; 
+        $arn = $snsArn['TopicArn'];
+/*$publish = $sns->publish([
+        'TopicArn' => $arn,
+        'Message' => $msg,
+]);*/
+
+
+
    $result = $client->deleteMessage(array(
     // QueueUrl is required
     'QueueUrl' => $queueUrl,
