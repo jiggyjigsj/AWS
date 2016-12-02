@@ -119,9 +119,6 @@ if ($uploadOk == 0) {
 		$sqsclient = new Aws\Sqs\SqsClient([
 	    'region'  => 'us-west-2',
 	    'version' => 'latest',
-		'credentials' => [
-			'key'    => 'AKIAIKYMAUHZJ7CYJEJQ',
-			'secret' => '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']
 		]);
 
 		// Code to retrieve the Queue URLs

@@ -7,9 +7,6 @@ require '/var/www/html/vendor/autoload.php';
 $client = new Aws\Rds\RdsClient([
   'region'            => 'us-west-2',
     'version'           => 'latest',
-	'credentials' => [
-'key'    => 'AKIAIKYMAUHZJ7CYJEJQ',
-'secret' => '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'],
 ]); 
 
 $result = $client->describeDBInstances([

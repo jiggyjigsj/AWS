@@ -8,9 +8,6 @@ use Aws\Sns\SnsClient;
 $client = new Aws\Sqs\SqsClient([
 'region'  => 'us-west-2',
 'version' => 'latest',
-'credentials' => [
-	'key'    => 'AKIAIKYMAUHZJ7CYJEJQ',
-	'secret' => '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']
 ]);
 
 //exec('rm /tmp/Rendered.png');
@@ -101,7 +98,7 @@ echo $queueUrl;
     // ReceiptHandle is required
     'ReceiptHandle' => $ReceiptHandle,
 	));
-   	exec('rm $rawfile');
-   	exec('rm $finish');
+   	exec('sudo rm /tmp/file.jpeg');
+   	exec('sudo rm /tmp/rendered.png');
    	$conn->close();
 ?>

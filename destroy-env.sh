@@ -78,19 +78,21 @@ echo "Deleting Topic"
 aws sns delete-topic --topic-arn "$TopicName"
 fi
 QueueURLS=`aws sqs list-queues --query 'QueueUrls[*]'`
-if [ -z "$QueueURLS" ];
+if [ $QueueURLS = "None" ];
 then
 echo "No Queues Found"
 else
 echo "Deleting Queue"
 aws sqs delete-queue --queue-url $QueueURLS
 fi
-Buckets=`aws s3api list-buckets --query 'Buckets[].Name'`
+Buckets=`aws s3 ls | awk '{print $3}'`
 if [ -z "$Buckets" ];
 then
 echo "No Buckets Found"
 else
-aws s3api delete-bucket --bucket $Buckets --region us-east-2
+for Bucket in $Buckets; do
+aws s3 rb s3://$Bucket --force
+done
 fi
 echo "If you didn't didn't get to the CHOPA by now its too late!!!"
 echo "

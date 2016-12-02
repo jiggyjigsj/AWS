@@ -3,7 +3,7 @@ if [ -z ${5+x} ];
 then 
 	echo "Error You didn't provide all the needed Variables!"
 	echo "Look at the example needed below"
-	echo "EX: ./install-env.sh ami-e7fb5d87 Jiggy sg-91e12ae8 apache-conf 3
+	echo "EX: ./install-env.sh ami-cea009ae Jiggy sg-91e12ae8 apache-conf 3
 	   NAME                  Default Value
 	1. AMI ID 		 ami-e7fb5d87
 	2. key-name		 Jiggy
@@ -29,5 +29,6 @@ else
 	echo "Load balancers live on: " $LBNAME
 	echo "But please wait atleast a minute before accessing"
 echo "Creating worker instance"
-aws ec2 run-instances --image-id ami-e7fb5d87 --security-group-ids sg-91e12ae8 --key-name Jiggy --instance-type t2.micro --iam-instance-profile Name=developer --user-data file://install-app-worker.sh --placement AvailabilityZone=us-west-2b
+aws ec2 run-instances --image-id $1 --security-group-ids $3 --key-name $2 --instance-type t2.micro --iam-instance-profile Name=developer --user-data file://install-app-worker.sh --placement AvailabilityZone=us-west-2b
+./install-app-worker.sh
 fi

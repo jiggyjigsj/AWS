@@ -21,12 +21,5 @@ cd /var/www/html
 sudo curl -sS https://getcomposer.org/installer | sudo php
 sudo php composer.phar require aws/aws-sdk-php
 
-sudo touch /var/spool/cron/root
+crontab -l | { cat; echo "* * * * * cd /var/www/html && sudo php /var/www/html/edit.php"; } | crontab -
 
-#write out current crontab
-crontab -l > mycron
-#echo new cron into cron file
-echo "1 * * * * php /var/www/html/edit.php" >> mycron
-#install new cron file
-crontab mycron
-rm mycron
