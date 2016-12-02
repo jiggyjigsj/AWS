@@ -36,17 +36,23 @@ while($row = $result->fetch_assoc())
       </div>
       <div class="large-8 columns">
         <div class="twentytwenty-container">
-          <img src=<?php echo $raw ?> />
-          <img src=<?php echo $finish ?> />
+          <img src=<?php echo $raw ?> border=3 height=700 width=700 />
+          <img src=<?php echo $finish ?> border=3 height=700 width=700 />
         </div>
       </div>
     </div>
-<!-- 	<td><img src=<?php echo $raw ?> alt="" border=3 height=350 width=350><td>
-	<td><img src=<?php echo $finish ?> alt="" border=3 height=350 width=350><td>
- --><?php
+<?php
 } ?>
 </div>
 </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="js/jquery.event.move.js"></script>
+    <script src="js/jquery.twentytwenty.js"></script>
+    <script>
+    $(window).load(function(){
+      $(".twentytwenty-container[data-orientation!='vertical']").twentytwenty({default_offset_pct: 0.7});
+      $(".twentytwenty-container[data-orientation='vertical']").twentytwenty({default_offset_pct: 0.3, orientation: 'vertical'});
+    });
 <?php
 $mysqli->close();
 ?>

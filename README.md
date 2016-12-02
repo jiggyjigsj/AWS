@@ -1,5 +1,5 @@
 # Create-AWS-environment
-Bash Script to Create and Deestroy AWS Enviroment
+Bash Script to Create and Destroy AWS Enviroment
 
 To run this script you will need to pass 5 total Variables:
 
@@ -17,3 +17,9 @@ EX: ./create-env.sh ami-ffa1089f Jiggy sg-91e12ae8 apache-conf 3
 To destroy your enviroment:
 
 Ex. ./destroy-env.sh
+
+
+
+Credit:
+
+Side by Side script taken from http://zurb.com/playground/twentytwenty
