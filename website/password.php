@@ -99,9 +99,10 @@ $row_cnt = $check_pic->num_rows;
 
 if ($row_cnt == 0) { 
 
-$insert = "'INSERT INTO `records` VALUES (1,'admin','6304074614','knuth','https://s3.amazonaws.com/raw-jjp/knuth.jpeg','https://s3.amazonaws.com/finish-jjp/knuth.png',1,0,'47983de493c654fcdc8c289f120b7e80'),(2,'admin','6304074614','mountain','https://s3.amazonaws.com/raw-jjp/mountain.jpeg','https://s3.amazonaws.com/finish-jjp/mountain.png',1,0,'8f2c61f4f107955ac53bfea8779d038c'),(3,'admin','6304074614','sound','https://s3.amazonaws.com/raw-jjp/sound.jpeg','https://s3.amazonaws.com/finish-jjp/sound.png',1,0,'d6b232aa0cb539ff59bd652058dba2a2')";
+$insert = "INSERT INTO records VALUES (1,'admin','6304074614','knuth','https://s3.amazonaws.com/raw-jjp/knuth.jpeg','https://s3.amazonaws.com/finish-jjp/knuth.png',1,0,'47983de493c654fcdc8c289f120b7e80'),(2,'admin','6304074614','mountain','https://s3.amazonaws.com/raw-jjp/mountain.jpeg','https://s3.amazonaws.com/finish-jjp/mountain.png',1,0,'8f2c61f4f107955ac53bfea8779d038c'),(3,'admin','6304074614','sound','https://s3.amazonaws.com/raw-jjp/sound.jpeg','https://s3.amazonaws.com/finish-jjp/sound.png',1,0,'d6b232aa0cb539ff59bd652058dba2a2')";
 
 $insert_usr = $link->query($insert);
+
 $s3= S3Client::factory(array(
   'region'  => 'us-east-1',
   'version' => 'latest',
@@ -114,11 +115,11 @@ foreach ($raw as &$value) {
   $bucket="raw-jjp";
 
   if ($value == "pics/knuth.jpeg"){
-    $key="knuth";
+    $key="knuth.jpeg";
   } elseif ($value == "pics/mountain.jpeg") {
-    $key = "mountain";
+    $key = "mountain.jpeg";
   } else {
-    $key = "sound";
+    $key = "sound.jpeg";
   }
 
   $result = $s3->putObject(array(
@@ -128,18 +129,17 @@ foreach ($raw as &$value) {
   'ACL'        => 'public-read'
 ));
 }
-foreach ($arr as &$value) {
+foreach ($finish as &$value) {
     $bucket="finish-jjp";
   
   if ($value == "pics/knuth.png"){
-    $key="knuth";
+    $key="knuth.png";
   } elseif ($value == "pics/mountain.png") {
-    $key = "mountain";
+    $key = "mountain.png";
   } else {
-    $key = "sound";
+    $key = "sound.png";
   }
 
-}
 $result = $s3->putObject(array(
   'Bucket'     => $bucket,
   'Key'        => $key,
@@ -147,6 +147,6 @@ $result = $s3->putObject(array(
   'ACL'        => 'public-read'
 ));
 }
-
+}
 $link->close();
 ?>
