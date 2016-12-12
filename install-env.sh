@@ -30,5 +30,4 @@ else
 	echo "But please wait atleast a minute before accessing"
 echo "Creating worker instance"
 aws ec2 run-instances --image-id $1 --security-group-ids $3 --key-name $2 --instance-type t2.micro --iam-instance-profile Name=developer --user-data file://install-app-worker.sh --placement AvailabilityZone=us-west-2b
-sudo ./install-app-worker.sh
 fi
