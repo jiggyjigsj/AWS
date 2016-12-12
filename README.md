@@ -4,6 +4,7 @@ Bash Script to Create and Destroy AWS Enviroment
 To run this script you will need to pass 5 total Variables:
 
 EX: ./create-env.sh ami-cea009ae Jiggy sg-91e12ae8 apache-conf 3
+Then run ./install-app-env.sh to luach the rest of the infrastructure
 
 ## Name           /          Default Value
 1. AMI ID /		 ami-cea009ae
